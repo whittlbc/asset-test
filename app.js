@@ -12,7 +12,9 @@ var comments = require('./comments')
 app.post('/api/comments', comments.processComment)
 
 //serving static files from nginx
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'public'), { cacheControl: true, setHeaders: function(res, _) { 
+   res.setHeader("Cache-Control", "public, max-age=2592000");  
+}}));
 
 let port = process.env.PORT || 80
 app.listen(port, function(){
